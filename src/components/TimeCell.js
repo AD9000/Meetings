@@ -1,7 +1,11 @@
-import React from "react";
-import { SelectedTime } from "./SelectedTime";
-import styled from "styled-components";
-import { Box } from "@material-ui/core";
+import React from 'react';
+import { SelectedTime } from './SelectedTime';
+import styled from 'styled-components';
+import { Box } from '@material-ui/core';
+import { useDrop } from 'react-dnd';
+
+import { ItemTypes } from '../Constants';
+import { canSelect, moveSelectedTime } from './AppFunctionality/Dnd';
 
 const Cell = styled(Box)`
   border: 1px solid black;
@@ -10,10 +14,23 @@ const Cell = styled(Box)`
   flex-grow: 1;
 `;
 
-const TimeCell = () => {
+const TimeCell = ({ x, y, selected }) => {
+  const [{ isOver, canDrop }, drop] = useDrop({
+    accept: ItemTypes.SELECTED,
+    drop: () => moveSelectedTime(x, y),
+    canDrop: () => canSelect(x, y),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+      canDrop: !!monitor.canDrop(),
+    }),
+  });
+
   return (
-    <Cell>
-      <SelectedTime />
+    <Cell
+      ref={drop}
+      style={{ position: 'relative', width: '18%', height: '18%' }}
+    >
+      {selected && <SelectedTime />}
     </Cell>
   );
 };
