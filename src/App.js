@@ -1,11 +1,17 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from './Theme';
-import { Grid, createStyles, Box, makeStyles } from '@material-ui/core';
+import {
+  Grid,
+  createStyles,
+  Box,
+  makeStyles,
+} from '@material-ui/core';
 import Header from './components/Header';
-import SelectTimes from './components/SelectTimes';
+// import SelectTimes from './components/SelectTimes';
 import './App.css';
 import styled from 'styled-components';
+import WrappedSelectTimes from './components/WrappedSelectTimes';
 
 import Backend from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
@@ -32,8 +38,8 @@ const useStyles = makeStyles({
   },
 });
 
-const App = ({ selectedPosition }) => {
-  console.log('selected', selectedPosition);
+const App = () => {
+  // console.log('selected', selectedPosition);
   const classes = useStyles();
   return (
     <ThemeProvider theme={theme}>
@@ -41,10 +47,22 @@ const App = ({ selectedPosition }) => {
         <Grid item className={classes.title}>
           <Header />
         </Grid>
-        <Grid item container className={classes.table} direction="row">
+        <Grid
+          item
+          container
+          className={classes.table}
+          direction="row"
+        >
           <Grid item xs={false} sm={1} lg={2} />
-          <Grid item justify="center" xs={12} sm={10} lg={8} container>
-            <SelectTimes selectedPosition={selectedPosition} />
+          <Grid
+            item
+            justify="center"
+            xs={12}
+            sm={10}
+            lg={8}
+            container
+          >
+            <WrappedSelectTimes />
           </Grid>
           <Grid item xs={false} sm={1} lg={2} />
         </Grid>

@@ -10,14 +10,14 @@ import { canSelect, moveSelectedTime } from './AppFunctionality/Dnd';
 const Cell = styled(Box)`
   border: 1px solid black;
   width: 18%;
-  height: 12.5%;
+  height: 5%;
   flex-grow: 1;
 `;
 
-const TimeCell = ({ x, y, selected }) => {
+const TimeCell = ({ x, y, selected, onDrop }) => {
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ItemTypes.SELECTED,
-    drop: () => moveSelectedTime(x, y),
+    drop: () => onDrop(x, y),
     canDrop: () => canSelect(x, y),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),

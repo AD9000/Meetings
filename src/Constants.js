@@ -1,3 +1,4 @@
+// DND types
 const ItemTypes = {
   SELECTED: 'SELECTED',
 };

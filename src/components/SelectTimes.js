@@ -9,16 +9,24 @@ const Container = styled(Grid)`
   flex: 1;
 `;
 
-const SelectTimes = ({ selectedPosition }) => {
+const SelectTimes = ({ selectedPosition, onDrop }) => {
   console.log(selectedPosition);
   const rend = Array(40).fill(0);
   // const sx = parseInt(selectedPosition / 5);
   // const sy = selectedPosition % 5;
-  const [sx, sy] = selectedPosition;
+  const { x, y } = selectedPosition;
   const timeCells = rend.map((_, index) => {
-    const x = parseInt(index / 5);
-    const y = index % 5;
-    return <TimeCell x={x} y={y} selected={x === sx && y === sy} key={index} />;
+    const nx = parseInt(index / 5);
+    const ny = index % 5;
+    return (
+      <TimeCell
+        onDrop={onDrop}
+        x={nx}
+        y={ny}
+        selected={nx === x && ny === y}
+        key={index}
+      />
+    );
   });
   return (
     <DndProvider backend={Backend}>
