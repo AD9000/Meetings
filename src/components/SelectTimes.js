@@ -9,21 +9,29 @@ const Container = styled(Grid)`
   flex: 1;
 `;
 
-const SelectTimes = ({ selectedPosition, onDrop }) => {
-  console.log(selectedPosition);
-  const rend = Array(40).fill(0);
+const SelectTimes = ({
+  selectedPosition,
+  onDrop,
+  toggleSelected,
+  updateDragging,
+  toggleStatic,
+}) => {
+  console.log('in selected times...', selectedPosition);
   // const sx = parseInt(selectedPosition / 5);
   // const sy = selectedPosition % 5;
-  const { x, y } = selectedPosition;
-  const timeCells = rend.map((_, index) => {
+  console.log('rendering...', selectedPosition);
+  const timeCells = selectedPosition.map((isSelected, index) => {
     const nx = parseInt(index / 5);
     const ny = index % 5;
     return (
       <TimeCell
+        staticToggle={toggleStatic}
+        updateDragging={updateDragging}
+        toggleSelected={toggleSelected}
         onDrop={onDrop}
         x={nx}
         y={ny}
-        selected={nx === x && ny === y}
+        selected={isSelected}
         key={index}
       />
     );

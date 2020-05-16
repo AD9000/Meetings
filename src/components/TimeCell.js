@@ -13,10 +13,21 @@ const Cell = styled(Box)`
   flex-grow: 1;
 `;
 
-const TimeCell = ({ x, y, selected, onDrop, canSelect }) => {
+const TimeCell = ({
+  x,
+  y,
+  selected,
+  onDrop,
+  toggleSelected,
+  updateDragging,
+  staticToggle,
+}) => {
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ItemTypes.SELECTED,
-    drop: () => onDrop(x, y),
+    drop: () => {
+      onDrop(x, y);
+      updateDragging(null);
+    },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
@@ -25,9 +36,12 @@ const TimeCell = ({ x, y, selected, onDrop, canSelect }) => {
   return (
     <Cell
       ref={drop}
+      onClick={() => staticToggle(x, y)}
       style={{ position: 'relative', width: '18%', height: '18%' }}
     >
-      {selected && <SelectedTime />}
+      {selected && (
+        <SelectedTime updateDragging={updateDragging} x={x} y={y} />
+      )}
     </Cell>
   );
 };

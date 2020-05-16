@@ -7,10 +7,8 @@ const defaultState = {
     x: 8,
     y: 5,
   },
-  selected: {
-    x: 0,
-    y: 0,
-  },
+  dragging: null,
+  selected: Array(40).fill(0),
 };
 
 export default (initialState = defaultState) =>

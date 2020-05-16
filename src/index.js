@@ -3,19 +3,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { Provider } from 'react-redux';
+import { Provider as StateProvider } from 'react-redux';
 import storeFactory from './store';
 import { selected, boardDimensions } from './store/Actions';
 
+const selectedArray = Array(40).fill(false);
+selectedArray[0] = true;
 const initialState = {
   boardDimensions: {
     x: 8,
     y: 5,
   },
-  selected: {
-    x: 0,
-    y: 0,
-  },
+  selected: selectedArray,
 };
 
 const store = storeFactory(initialState);
@@ -29,9 +28,9 @@ store.subscribe(() => {
 });
 
 ReactDOM.render(
-  <Provider store={store}>
+  <StateProvider store={store}>
     <App />
-  </Provider>,
+  </StateProvider>,
   document.getElementById('root')
 );
 

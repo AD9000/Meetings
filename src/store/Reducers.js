@@ -15,6 +15,7 @@ export const boardDimensions = (state = { x: 8, y: 5 }, action) => {
 };
 
 const checkValidMove = (x, y) => x >= 0 && y >= 0;
+const checkValidState = (state) => true;
 
 export const selected = (state = { x: 0, y: 0 }, action) => {
   console.log('called selected method');
@@ -25,6 +26,9 @@ export const selected = (state = { x: 0, y: 0 }, action) => {
     console.log('valid', checkValidMove(newValue.x, newValue.y));
     // This means there was an error in the application if false
     return checkValidMove(newValue.x, newValue.y) ? newValue : state;
+  } else if (action.type === ActionTypes.CHANGE_SELECTED) {
+    console.log('updating state to...', newValue);
+    return checkValidState(newValue) ? newValue : state;
   } else {
     // Same as above
     return state;
@@ -32,9 +36,20 @@ export const selected = (state = { x: 0, y: 0 }, action) => {
   // return true;
 };
 
+const checkDragging = (state) =>
+  state === null || (state.x >= 0 && state.y >= 0);
+
+export const dragging = (state = null, action) => {
+  if (action.type === ActionTypes.UPDATE_DRAGGING) {
+    return checkDragging(action.payload) ? action.payload : state;
+  }
+  return state;
+};
+
 // export { boardDimensions, selected };
 
 export default combineReducers({
   selected,
   boardDimensions,
+  dragging,
 });

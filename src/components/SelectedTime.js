@@ -3,9 +3,12 @@ import { useDrag } from 'react-dnd';
 import { Button } from '@material-ui/core';
 import { ItemTypes } from '../Constants';
 
-const SelectedTime = () => {
+const SelectedTime = ({ x, y, updateDragging }) => {
   const [{ isDragging }, drag] = useDrag({
     item: { type: ItemTypes.SELECTED },
+    begin: (monitor) => {
+      updateDragging({ x, y });
+    },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),

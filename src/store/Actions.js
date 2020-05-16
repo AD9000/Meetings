@@ -16,15 +16,58 @@ export const boardDimensions = (newSize) => {
   }
 };
 
-export const selected = (newCoords) => {
+export const staticToggle = (x, y) => (dispatch, getState) => {
+  console.log('in selected thunk: ', x, y);
+  if (checkSelected(x, y)) {
+    console.log('is valid');
+    const state = getState();
+    console.log('state: ', state);
+    const index = x * state.boardDimensions.y + y;
+    const newSelected = [...state.selected];
+    newSelected[index] = !newSelected[index];
+    console.log('new seleted ', newSelected);
+    dispatch({
+      type: ActionTypes.CHANGE_SELECTED,
+      payload: newSelected,
+    });
+  }
+};
+
+const checkSelected = (x, y) => true;
+
+export const selected = (x, y) => (dispatch, getState) => {
+  console.log('in selected thunk: ', x, y);
+  if (checkSelected(x, y)) {
+    console.log('is valid');
+    const state = getState();
+    console.log('state: ', state);
+    const prevIndex =
+      state.dragging.x * state.boardDimensions.y + state.dragging.y;
+    const index = x * state.boardDimensions.y + y;
+    const newSelected = [...state.selected];
+    newSelected[index] = true;
+    newSelected[prevIndex] = false;
+    console.log('new seleted ', newSelected);
+    dispatch({
+      type: ActionTypes.CHANGE_SELECTED,
+      payload: newSelected,
+    });
+  }
+};
+
+export const dragging = (newDrag) => (dispatch) => {
+  console.log('newDrag: ', newDrag);
+  console.log('check: ', newDrag === null);
   if (
-    newCoords?.x >= 0 &&
-    newCoords?.y >= 0 &&
-    Object.keys(newCoords).length === 2
+    (newDrag?.x >= 0 &&
+      newDrag?.y >= 0 &&
+      Object.keys(newDrag).length === 2) ||
+    newDrag === null
   ) {
-    return {
-      type: ActionTypes.MOVE_SELECTED,
-      payload: { ...newCoords },
-    };
+    console.log('dispatching...');
+    dispatch({
+      type: ActionTypes.UPDATE_DRAGGING,
+      payload: newDrag,
+    });
   }
 };
