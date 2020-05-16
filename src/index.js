@@ -3,9 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import SelectTimes from './components/SelectTimes';
-import { observe } from './components/AppFunctionality/Dnd';
-
 import { Provider } from 'react-redux';
 import storeFactory from './store';
 import { selected, boardDimensions } from './store/Actions';
@@ -16,7 +13,7 @@ const initialState = {
     y: 5,
   },
   selected: {
-    x: 5,
+    x: 0,
     y: 0,
   },
 };
@@ -31,21 +28,12 @@ store.subscribe(() => {
   console.log('current state', state);
 });
 
-// store.dispatch(boardDimensions({ x: 5, y: 5 }));
-
 ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>,
   document.getElementById('root')
 );
-
-// observe((selectedPosition) =>
-//   ReactDOM.render(
-//     <App selectedPosition={selectedPosition} />,
-//     document.getElementById('root')
-//   )
-// );
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
